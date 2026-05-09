@@ -1,0 +1,49 @@
+// =============================================================================
+// TASKFORGE — SCSS Mixins
+// =============================================================================
+@use 'variables' as v;
+
+// Respond to a minimum breakpoint
+@mixin respond-to($bp) {
+  @if $bp == sm  { @media (min-width: v.$bp-sm)  { @content; } }
+  @else if $bp == md  { @media (min-width: v.$bp-md)  { @content; } }
+  @else if $bp == lg  { @media (min-width: v.$bp-lg)  { @content; } }
+  @else if $bp == xl  { @media (min-width: v.$bp-xl)  { @content; } }
+}
+
+// Flex shorthand
+@mixin flex($dir: row, $align: center, $justify: flex-start, $wrap: nowrap) {
+  display: flex;
+  flex-direction: $dir;
+  align-items: $align;
+  justify-content: $justify;
+  flex-wrap: $wrap;
+}
+
+// Center an element with flex
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Truncate text with ellipsis
+@mixin ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// Card surface
+@mixin card {
+  background: v.$color-surface;
+  border-radius: v.$radius-lg;
+  box-shadow: v.$shadow-md;
+  padding: v.$spacing-lg;
+}
+
+// Focus ring (accessible)
+@mixin focus-ring {
+  outline: 2px solid v.$color-primary;
+  outline-offset: 2px;
+}

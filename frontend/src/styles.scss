@@ -1,0 +1,32 @@
+// =============================================================================
+// TASKFORGE — Global Styles Entry Point
+// =============================================================================
+
+// 1. Load design tokens first (no output — variables only)
+@use 'styles/variables' as v;
+
+// 2. Reset & base
+@use 'styles/reset';
+@use 'styles/typography';
+
+// 3. Utility classes
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 v.$spacing-lg;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+}
+
+// 4. Scrollbar styling (Chromium only)
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: v.$color-bg; }
+::-webkit-scrollbar-thumb { background: v.$color-border; border-radius: v.$radius-full; }
