@@ -1,0 +1,39 @@
+@use '../../../styles/variables' as v;
+@use '../../../styles/mixins' as m;
+
+$sidebar-transition: width .25s cubic-bezier(.4,0,.2,1);
+
+.shell {
+  display: grid;
+  grid-template-columns: v.$sidebar-width 1fr;
+  min-height: 100vh;
+  transition: $sidebar-transition;
+
+  &--collapsed {
+    grid-template-columns: 64px 1fr;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: v.$color-bg;
+  }
+
+  &__content {
+    flex: 1;
+    padding: v.$spacing-lg;
+    overflow-y: auto;
+  }
+}
+
+// Mobile: sidebar becomes overlay (< 768px)
+@include m.respond-to(md) {
+  .shell {
+    grid-template-columns: v.$sidebar-width 1fr;
+    &--collapsed {
+      grid-template-columns: 64px 1fr;
+    }
+  }
+}

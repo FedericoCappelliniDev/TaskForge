@@ -1,0 +1,77 @@
+@use '../../../styles/variables' as v;
+@use '../../../styles/mixins' as m;
+
+.navbar {
+  @include m.flex(row, center, space-between);
+  height: v.$navbar-height;
+  padding: 0 v.$spacing-lg;
+  background: v.$navbar-bg;
+  border-bottom: 1px solid v.$color-border;
+  box-shadow: v.$shadow-sm;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  &__brand {
+    font-size: v.$font-size-lg;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-primary;
+    letter-spacing: -.5px;
+  }
+
+  &__menu-btn {
+    @include m.flex-center;
+    width: 36px;
+    height: 36px;
+    border-radius: v.$radius-md;
+    transition: v.$transition-fast;
+
+    &:hover { background: v.$color-surface-alt; }
+    &:focus-visible { @include m.focus-ring; }
+  }
+
+  &__hamburger,
+  &__hamburger::before,
+  &__hamburger::after {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: v.$color-text;
+    border-radius: v.$radius-full;
+    transition: v.$transition-fast;
+  }
+
+  &__hamburger {
+    position: relative;
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+    }
+    &::before { top: -5px; }
+    &::after  { top:  5px; }
+  }
+
+  &__actions {
+    @include m.flex(row, center, flex-end);
+    gap: v.$spacing-md;
+  }
+
+  &__user {
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    color: v.$color-text-muted;
+  }
+
+  &__logout {
+    font-size: v.$font-size-sm;
+    color: v.$color-danger;
+    padding: v.$spacing-xs v.$spacing-sm;
+    border-radius: v.$radius-md;
+    transition: v.$transition-fast;
+
+    &:hover { background: rgba(v.$color-danger, .08); }
+    &:focus-visible { @include m.focus-ring; }
+  }
+}
