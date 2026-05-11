@@ -1,0 +1,116 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.auth-page {
+  @include m.flex-center;
+  min-height: 100vh;
+  background: v.$color-bg;
+  padding: v.$spacing-lg;
+}
+
+.auth-card {
+  @include m.card;
+  width: 100%;
+  max-width: 420px;
+
+  &__title {
+    font-size: v.$font-size-xl;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text;
+    margin-bottom: v.$spacing-xs;
+  }
+
+  &__subtitle {
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+    margin-bottom: v.$spacing-xl;
+  }
+
+  &__error {
+    background: rgba(v.$color-danger, .08);
+    border: 1px solid rgba(v.$color-danger, .25);
+    color: v.$color-danger;
+    font-size: v.$font-size-sm;
+    padding: v.$spacing-sm v.$spacing-md;
+    border-radius: v.$radius-md;
+    margin-bottom: v.$spacing-md;
+  }
+
+  &__footer {
+    text-align: center;
+    margin-top: v.$spacing-lg;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+  }
+
+  &__link {
+    color: v.$color-primary;
+    font-weight: v.$font-weight-medium;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-md;
+}
+
+// ── Shared form primitives ────────────────────────────────────────────────────
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-xs;
+}
+
+.form-label {
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  color: v.$color-text;
+}
+
+.form-input {
+  padding: v.$spacing-sm v.$spacing-md;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-base;
+  background: v.$color-surface;
+  color: v.$color-text;
+  transition: v.$transition-fast;
+
+  &::placeholder { color: v.$color-text-muted; }
+
+  &:focus {
+    outline: none;
+    border-color: v.$color-primary;
+    box-shadow: 0 0 0 3px rgba(v.$color-primary, .15);
+  }
+
+  &:disabled { opacity: .6; cursor: not-allowed; }
+}
+
+.form-error {
+  font-size: v.$font-size-xs;
+  color: v.$color-danger;
+}
+
+.btn {
+  padding: v.$spacing-sm v.$spacing-lg;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
+  transition: v.$transition-fast;
+  border: 2px solid transparent;
+  cursor: pointer;
+
+  &:focus-visible { @include m.focus-ring; }
+  &:disabled { opacity: .6; cursor: not-allowed; }
+
+  &--primary {
+    background: v.$color-primary;
+    color: v.$color-text-inverse;
+    &:hover:not(:disabled) { background: v.$color-primary-dark; }
+  }
+
+  &--full { width: 100%; }
+}
