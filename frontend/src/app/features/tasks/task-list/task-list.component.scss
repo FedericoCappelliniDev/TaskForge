@@ -1,0 +1,107 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.task-list-page {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-xl;
+}
+
+.page-header {
+  @include m.flex(row, center, space-between);
+}
+
+.page-title {
+  font-size: v.$font-size-2xl;
+  font-weight: v.$font-weight-bold;
+}
+
+.task-table-wrapper {
+  background: v.$color-surface;
+  border-radius: v.$radius-lg;
+  box-shadow: v.$shadow-md;
+  overflow-x: auto;
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead tr {
+    border-bottom: 1px solid v.$color-border;
+  }
+
+  th {
+    padding: v.$spacing-md v.$spacing-lg;
+    text-align: left;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    white-space: nowrap;
+  }
+}
+
+.task-row {
+  border-bottom: 1px solid v.$color-border;
+  transition: v.$transition-fast;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background: v.$color-surface-alt; }
+
+  td {
+    padding: v.$spacing-md v.$spacing-lg;
+    font-size: v.$font-size-sm;
+    vertical-align: middle;
+  }
+
+  &__title {
+    font-weight: v.$font-weight-medium;
+    max-width: 320px;
+    @include m.ellipsis;
+  }
+
+  &__due { color: v.$color-text-muted; white-space: nowrap; }
+}
+
+// ── Status / priority badges ───────────────────────────────────────────────
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px v.$spacing-sm;
+  border-radius: v.$radius-full;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+  white-space: nowrap;
+
+  &--todo        { background: v.$color-surface-alt;           color: v.$color-text-muted; }
+  &--in_progress { background: rgba(v.$color-primary,.12);     color: v.$color-primary; }
+  &--in_review   { background: rgba(v.$color-warning,.12);     color: v.$color-warning; }
+  &--done        { background: rgba(v.$color-accent,.12);      color: v.$color-accent; }
+
+  &--priority-low    { background: v.$color-surface-alt;       color: v.$color-text-muted; }
+  &--priority-medium { background: rgba(v.$color-primary,.10); color: v.$color-primary; }
+  &--priority-high   { background: rgba(v.$color-warning,.15); color: v.$color-warning; }
+  &--priority-urgent { background: rgba(v.$color-danger,.12);  color: v.$color-danger; }
+}
+
+.empty-state {
+  text-align: center;
+  color: v.$color-text-muted;
+  padding: v.$spacing-2xl;
+}
+
+.btn {
+  padding: v.$spacing-sm v.$spacing-lg;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
+  transition: v.$transition-fast;
+  border: 2px solid transparent;
+  cursor: pointer;
+  &:focus-visible { @include m.focus-ring; }
+  &:disabled { opacity: .6; cursor: not-allowed; }
+  &--primary { background: v.$color-primary; color: v.$color-text-inverse;
+    &:hover:not(:disabled) { background: v.$color-primary-dark; } }
+}
