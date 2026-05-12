@@ -1,0 +1,119 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.project-list-page {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-xl;
+}
+
+.page-header {
+  @include m.flex(row, center, space-between);
+}
+
+.page-title {
+  font-size: v.$font-size-2xl;
+  font-weight: v.$font-weight-bold;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: v.$spacing-lg;
+}
+
+.project-card {
+  @include m.card;
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-md;
+  border-top: 4px solid v.$color-primary;
+  transition: v.$transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: v.$shadow-lg;
+  }
+
+  &__header {
+    @include m.flex(row, center, flex-start);
+    gap: v.$spacing-sm;
+  }
+
+  &__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: v.$radius-full;
+    background: v.$color-primary;
+    flex-shrink: 0;
+  }
+
+  &__name {
+    font-size: v.$font-size-md;
+    font-weight: v.$font-weight-semibold;
+    flex: 1;
+    @include m.ellipsis;
+  }
+
+  &__status {
+    font-size: v.$font-size-xs;
+    padding: 2px v.$spacing-sm;
+    border-radius: v.$radius-full;
+    white-space: nowrap;
+
+    &--active   { background: rgba(v.$color-accent,.12); color: v.$color-accent; }
+    &--archived { background: v.$color-surface-alt; color: v.$color-text-muted; }
+    &--on_hold  { background: rgba(v.$color-warning,.12); color: v.$color-warning; }
+  }
+
+  &__desc {
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+    line-height: v.$line-height-base;
+    flex: 1;
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-xs;
+  }
+
+  &__stat {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+  }
+
+  &__progress {
+    height: 4px;
+    background: v.$color-surface-alt;
+    border-radius: v.$radius-full;
+    overflow: hidden;
+  }
+
+  &__progress-bar {
+    height: 100%;
+    border-radius: v.$radius-full;
+    background: v.$color-accent;
+    transition: width .4s ease;
+  }
+}
+
+.empty-state {
+  color: v.$color-text-muted;
+  font-size: v.$font-size-sm;
+}
+
+.btn {
+  padding: v.$spacing-sm v.$spacing-lg;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
+  transition: v.$transition-fast;
+  border: 2px solid transparent;
+  cursor: pointer;
+  &:focus-visible { @include m.focus-ring; }
+  &:disabled { opacity: .6; cursor: not-allowed; }
+  &--primary { background: v.$color-primary; color: v.$color-text-inverse;
+    &:hover:not(:disabled) { background: v.$color-primary-dark; } }
+}
