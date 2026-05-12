@@ -1,0 +1,100 @@
+@use '../../../styles/variables' as v;
+@use '../../../styles/mixins' as m;
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-xl;
+
+  &__title {
+    font-size: v.$font-size-2xl;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text;
+  }
+}
+
+// ── KPI Stats Grid ─────────────────────────────────────────────────────────
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: v.$spacing-md;
+}
+
+.stat-card {
+  @include m.card;
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-xs;
+  border-left: 4px solid v.$color-primary;
+
+  &--accent { border-left-color: v.$color-accent; }
+
+  &__value {
+    font-size: v.$font-size-2xl;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text;
+  }
+
+  &__label {
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+  }
+}
+
+// ── Section ────────────────────────────────────────────────────────────────
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-md;
+
+  &__title {
+    font-size: v.$font-size-lg;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text;
+  }
+}
+
+// ── Task List ──────────────────────────────────────────────────────────────
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-sm;
+}
+
+.task-item {
+  @include m.flex(row, center, flex-start);
+  gap: v.$spacing-md;
+  background: v.$color-surface;
+  padding: v.$spacing-sm v.$spacing-md;
+  border-radius: v.$radius-md;
+  border: 1px solid v.$color-border;
+
+  &__title {
+    flex: 1;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    @include m.ellipsis;
+  }
+
+  &__priority {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    background: v.$color-surface-alt;
+    padding: 2px v.$spacing-sm;
+    border-radius: v.$radius-full;
+    white-space: nowrap;
+  }
+
+  &__status {
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+    padding: 2px v.$spacing-sm;
+    border-radius: v.$radius-full;
+    white-space: nowrap;
+
+    &--todo        { background: v.$color-surface-alt; color: v.$color-text-muted; }
+    &--in_progress { background: rgba(v.$color-primary,.12); color: v.$color-primary; }
+    &--in_review   { background: rgba(v.$color-warning,.12); color: v.$color-warning; }
+    &--done        { background: rgba(v.$color-accent,.12);  color: v.$color-accent;  }
+  }
+}
