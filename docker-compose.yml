@@ -1,0 +1,56 @@
+services:
+
+  # ── PostgreSQL ─────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       taskforge
+      POSTGRES_USER:     postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d taskforge"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── Spring Boot backend ────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL:      jdbc:postgresql://postgres:5432/taskforge
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      # Override CORS to accept requests from the nginx frontend
+      APPLICATION_CORS_ALLOWED_ORIGINS: http://localhost
+      # Override JWT secret in production by setting this env var
+      APPLICATION_SECURITY_JWT_SECRET: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    ports:
+      - "8080:8080"   # also directly accessible for API testing (e.g. Postman)
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ || true"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ── Angular frontend (nginx) ───────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"       # open http://localhost in a browser
+
+volumes:
+  postgres_data:
