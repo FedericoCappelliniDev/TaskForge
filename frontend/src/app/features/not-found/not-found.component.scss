@@ -1,0 +1,41 @@
+@use '../../../styles/variables' as v;
+@use '../../../styles/mixins' as m;
+
+.not-found {
+  @include m.flex(column, center, center);
+  min-height: 80vh;
+  text-align: center;
+  gap: v.$spacing-md;
+
+  &__code {
+    font-size: 96px;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-border;
+    line-height: 1;
+  }
+
+  &__title {
+    font-size: v.$font-size-2xl;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text;
+  }
+
+  &__text {
+    font-size: v.$font-size-base;
+    color: v.$color-text-muted;
+    max-width: 400px;
+  }
+}
+
+.btn {
+  padding: v.$spacing-sm v.$spacing-xl;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
+  transition: v.$transition-fast;
+  border: 2px solid transparent;
+  cursor: pointer;
+  &:focus-visible { @include m.focus-ring; }
+  &--primary { background: v.$color-primary; color: v.$color-text-inverse;
+    &:hover { background: v.$color-primary-dark; } }
+}
