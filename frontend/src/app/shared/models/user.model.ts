@@ -8,6 +8,9 @@ export interface User {
   readonly createdAt: string;
 }
 
+/** Alias — same shape, used when fetching /auth/me */
+export type UserResponse = User;
+
 export type UserRole = 'ADMIN' | 'MEMBER' | 'VIEWER';
 
 /** Payload returned by Spring Boot JWT login endpoint */

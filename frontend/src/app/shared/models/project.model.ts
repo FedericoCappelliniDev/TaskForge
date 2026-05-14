@@ -16,6 +16,13 @@ export type ProjectStatus = 'ACTIVE' | 'ARCHIVED' | 'ON_HOLD';
 
 export interface CreateProjectRequest {
   readonly name: string;
-  readonly description: string;
-  readonly color: string;
+  readonly description?: string;
+  readonly color?: string;
+}
+
+export interface UpdateProjectRequest {
+  readonly name: string;
+  readonly description?: string;
+  readonly color?: string;
+  readonly status?: ProjectStatus;
 }
