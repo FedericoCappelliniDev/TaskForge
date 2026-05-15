@@ -9,6 +9,9 @@ RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/* \
        | tar -xz -C /opt \
     && ln -s /opt/apache-maven-${MAVEN_VERSION}/bin/mvn /usr/local/bin/mvn
 
+# Suppress JVM warnings from Maven's bundled libraries (jansi, guava)
+ENV MAVEN_OPTS="--enable-native-access=ALL-UNNAMED --sun-misc-unsafe-memory-access=allow"
+
 # Cache dependencies first
 COPY pom.xml .
 RUN mvn dependency:go-offline -q
