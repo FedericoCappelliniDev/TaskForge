@@ -26,14 +26,39 @@ $sidebar-transition: width .25s cubic-bezier(.4,0,.2,1);
     padding: v.$spacing-lg;
     overflow-y: auto;
   }
+
+  // Backdrop — only visible on mobile when sidebar is open
+  &__backdrop {
+    display: none;
+  }
 }
 
-// Mobile: sidebar becomes overlay (< 768px)
-@include m.respond-to(md) {
+// ── Mobile: sidebar becomes a fixed overlay drawer ──────────────────────────
+@include m.respond-below(md) {
   .shell {
-    grid-template-columns: v.$sidebar-width 1fr;
+    // Body always takes full width; sidebar floats above
+    grid-template-columns: 1fr;
+
     &--collapsed {
-      grid-template-columns: 64px 1fr;
+      grid-template-columns: 1fr;
     }
+
+    &__backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 250;
+      animation: backdrop-in .2s ease;
+    }
+
+    &__content {
+      padding: v.$spacing-md;
+    }
+  }
+
+  @keyframes backdrop-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
 }

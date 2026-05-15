@@ -11,6 +11,14 @@
   @else if $bp == xl  { @media (min-width: v.$bp-xl)  { @content; } }
 }
 
+// Respond below a maximum breakpoint (mobile-first helpers)
+@mixin respond-below($bp) {
+  @if $bp == sm  { @media (max-width: calc(v.$bp-sm  - 1px)) { @content; } }
+  @else if $bp == md  { @media (max-width: calc(v.$bp-md  - 1px)) { @content; } }
+  @else if $bp == lg  { @media (max-width: calc(v.$bp-lg  - 1px)) { @content; } }
+  @else if $bp == xl  { @media (max-width: calc(v.$bp-xl  - 1px)) { @content; } }
+}
+
 // Flex shorthand
 @mixin flex($dir: row, $align: center, $justify: flex-start, $wrap: nowrap) {
   display: flex;

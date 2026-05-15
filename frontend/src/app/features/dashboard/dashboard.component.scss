@@ -61,6 +61,36 @@
   gap: v.$spacing-sm;
 }
 
+// ── Project List (dashboard) ───────────────────────────────────────────────
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-sm;
+}
+
+.project-item {
+  @include m.flex(row, center, space-between);
+  gap: v.$spacing-md;
+  background: v.$color-surface;
+  padding: v.$spacing-sm v.$spacing-md;
+  border-radius: v.$radius-md;
+  border: 1px solid v.$color-border;
+  border-left: 3px solid v.$color-primary;
+
+  &__name {
+    flex: 1;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    @include m.ellipsis;
+  }
+
+  &__stat {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    white-space: nowrap;
+  }
+}
+
 .task-item {
   @include m.flex(row, center, flex-start);
   gap: v.$spacing-md;

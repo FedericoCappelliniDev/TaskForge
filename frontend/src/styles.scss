@@ -4,6 +4,7 @@
 
 // 1. Load design tokens first (no output — variables only)
 @use 'styles/variables' as v;
+@use 'styles/mixins' as m;
 
 // 2. Reset & base
 @use 'styles/reset';
@@ -30,3 +31,166 @@
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: v.$color-bg; }
 ::-webkit-scrollbar-thumb { background: v.$color-border; border-radius: v.$radius-full; }
+
+// =============================================================================
+// 5. Shared utility classes used across feature components
+// =============================================================================
+
+// Loading / empty
+.loading-text {
+  color: v.$color-text-muted;
+  font-size: v.$font-size-sm;
+  padding: v.$spacing-lg 0;
+}
+
+.empty-hint {
+  color: v.$color-text-muted;
+  font-size: v.$font-size-sm;
+  .link { color: v.$color-primary; text-decoration: underline; }
+}
+
+// Icon button
+.btn-icon {
+  @include m.flex-center;
+  width: 28px;
+  height: 28px;
+  border-radius: v.$radius-md;
+  font-size: 12px;
+  transition: v.$transition-fast;
+  cursor: pointer;
+
+  &--danger {
+    color: v.$color-danger;
+    &:hover:not(:disabled) { background: rgba(v.$color-danger, .1); }
+  }
+  &:disabled { opacity: .4; cursor: not-allowed; }
+}
+
+// Shared form primitives (modal forms)
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$spacing-md;
+  @include m.respond-below(sm) { grid-template-columns: 1fr; }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-xs;
+}
+
+.form-label {
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  color: v.$color-text;
+}
+
+.form-input {
+  padding: v.$spacing-sm v.$spacing-md;
+  border: 1.5px solid v.$color-border;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-sm;
+  color: v.$color-text;
+  background: v.$color-surface;
+  transition: border-color .15s ease;
+  width: 100%;
+  box-sizing: border-box;
+
+  &:focus { outline: none; border-color: v.$color-primary; }
+  &--textarea { resize: vertical; min-height: 72px; font-family: inherit; }
+  &--color { height: 38px; padding: 2px v.$spacing-sm; cursor: pointer; }
+}
+
+.form-error {
+  font-size: v.$font-size-xs;
+  color: v.$color-danger;
+}
+
+// Modal overlay + panel
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: v.$spacing-md;
+  animation: modal-fade .15s ease;
+}
+
+@keyframes modal-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal {
+  background: v.$color-surface;
+  border-radius: v.$radius-xl;
+  box-shadow: v.$shadow-lg;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: v.$spacing-xl;
+  animation: modal-slide .15s ease;
+
+  &__title {
+    font-size: v.$font-size-lg;
+    font-weight: v.$font-weight-bold;
+    margin-bottom: v.$spacing-lg;
+  }
+
+  &__error {
+    background: rgba(v.$color-danger, .08);
+    color: v.$color-danger;
+    border-radius: v.$radius-md;
+    padding: v.$spacing-sm v.$spacing-md;
+    font-size: v.$font-size-sm;
+    margin-bottom: v.$spacing-md;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-md;
+  }
+
+  &__actions {
+    @include m.flex(row, center, flex-end);
+    gap: v.$spacing-sm;
+    margin-top: v.$spacing-sm;
+  }
+}
+
+@keyframes modal-slide {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+
+// Shared page btn styles (also used in feature components)
+.btn {
+  padding: v.$spacing-sm v.$spacing-lg;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
+  transition: v.$transition-fast;
+  border: 2px solid transparent;
+  cursor: pointer;
+  &:focus-visible { @include m.focus-ring; }
+  &:disabled { opacity: .6; cursor: not-allowed; }
+  &--primary {
+    background: v.$color-primary;
+    color: v.$color-text-inverse;
+    &:hover:not(:disabled) { background: v.$color-primary-dark; }
+  }
+  &--ghost {
+    background: transparent;
+    border-color: v.$color-border;
+    color: v.$color-text;
+    &:hover:not(:disabled) { background: v.$color-surface-alt; }
+  }
+  &--full { width: 100%; }
+}
+

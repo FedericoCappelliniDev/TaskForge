@@ -112,3 +112,27 @@
     }
   }
 }
+
+// ── Mobile: fixed overlay drawer ─────────────────────────────────────────────
+@include m.respond-below(md) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: v.$sidebar-width !important; // always full-width drawer, never icon-only
+    z-index: 300;
+    transform: translateX(0);
+    transition: transform .25s cubic-bezier(.4,0,.2,1);
+    box-shadow: 4px 0 24px rgba(0,0,0,.25);
+
+    &--collapsed {
+      transform: translateX(-100%);
+    }
+
+    // Hide the desktop collapse toggle on mobile
+    &__toggle {
+      display: none;
+    }
+  }
+}

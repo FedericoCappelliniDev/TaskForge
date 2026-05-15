@@ -104,16 +104,16 @@
   font-size: v.$font-size-sm;
 }
 
-.btn {
-  padding: v.$spacing-sm v.$spacing-lg;
-  border-radius: v.$radius-md;
-  font-size: v.$font-size-base;
-  font-weight: v.$font-weight-semibold;
-  transition: v.$transition-fast;
-  border: 2px solid transparent;
-  cursor: pointer;
-  &:focus-visible { @include m.focus-ring; }
-  &:disabled { opacity: .6; cursor: not-allowed; }
-  &--primary { background: v.$color-primary; color: v.$color-text-inverse;
-    &:hover:not(:disabled) { background: v.$color-primary-dark; } }
+// Project card footer: progress + delete button side by side
+.project-card__footer {
+  @include m.flex(row, center, flex-start);
+  gap: v.$spacing-sm;
+
+  .project-card__stat   { flex: 0 0 auto; }
+  .project-card__progress { flex: 1; }
+}
+
+.page-header {
+  flex-wrap: wrap;
+  gap: v.$spacing-sm;
 }

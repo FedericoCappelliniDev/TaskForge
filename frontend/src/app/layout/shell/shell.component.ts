@@ -14,6 +14,15 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   imports: [RouterOutlet, NavbarComponent, SidebarComponent],
   template: `
     <div class="shell" [class.shell--collapsed]="sidebarCollapsed()">
+      <!-- Backdrop: closes mobile drawer when tapped outside -->
+      @if (!sidebarCollapsed()) {
+        <div
+          class="shell__backdrop"
+          aria-hidden="true"
+          (click)="sidebarCollapsed.set(true)"
+        ></div>
+      }
+
       <tf-sidebar
         [collapsed]="sidebarCollapsed()"
         (toggleCollapse)="sidebarCollapsed.set(!sidebarCollapsed())"
@@ -29,5 +38,8 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   styleUrl: './shell.component.scss',
 })
 export class ShellComponent {
-  protected readonly sidebarCollapsed = signal(false);
+  /** Start collapsed on mobile so the drawer is hidden by default */
+  protected readonly sidebarCollapsed = signal(
+    typeof window !== 'undefined' && window.innerWidth < 768
+  );
 }
