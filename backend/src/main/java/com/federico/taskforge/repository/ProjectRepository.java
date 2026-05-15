@@ -1,7 +1,6 @@
 package com.federico.taskforge.repository;
 
 import com.federico.taskforge.domain.entity.Project;
-import com.federico.taskforge.domain.enums.ProjectStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
