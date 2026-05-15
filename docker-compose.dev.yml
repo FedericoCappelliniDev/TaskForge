@@ -1,0 +1,37 @@
+# ── Development overrides ─────────────────────────────────────────────────────
+# Starts the backend from the pre-built JAR and the frontend with ng serve.
+# Hot-reload: source changes in frontend/src are reflected instantly.
+#
+# Usage: docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+services:
+
+  # ── Spring Boot backend (dev) ──────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      # Allow the Angular dev server origin
+      APPLICATION_CORS_ALLOWED_ORIGINS: http://localhost:4200
+      APPLICATION_SECURITY_JWT_SECRET: dev-secret-change-me-in-production
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ || true"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ── Angular frontend (ng serve with live reload) ───────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      # Mount source for live reload; node_modules stays inside the container
+      - ./frontend/src:/app/src
+      - /app/node_modules
+    ports:
+      - "4200:4200"
+    environment:
+      - NODE_ENV=development

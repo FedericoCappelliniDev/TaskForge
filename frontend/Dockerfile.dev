@@ -1,0 +1,19 @@
+# ── Development image for Angular (ng serve) ──────────────────────────────────
+# Source is mounted from the host at runtime; node_modules lives in the image.
+FROM node:24-alpine
+WORKDIR /app
+
+RUN npm install -g npm@11
+
+# Install dependencies as a cached layer
+COPY package.json package-lock.json ./
+RUN npm install --prefer-offline
+
+# Copy the rest of the project (overridden by the volume mount at runtime)
+COPY . .
+
+EXPOSE 4200
+
+# --host 0.0.0.0 makes the server reachable from outside the container
+# --poll 500 enables file-change polling (needed on Windows/macOS bind mounts)
+CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--poll", "500"]

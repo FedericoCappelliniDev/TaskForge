@@ -1,0 +1,31 @@
+# ── Production overrides ──────────────────────────────────────────────────────
+# Builds optimised images: Spring Boot JAR → JRE, Angular → nginx.
+#
+# Usage: docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build
+
+services:
+
+  # ── Spring Boot backend (prod) ─────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      # Accept requests only from the nginx frontend
+      APPLICATION_CORS_ALLOWED_ORIGINS: http://localhost
+      # Override this env var with a strong random value in real deployments
+      APPLICATION_SECURITY_JWT_SECRET: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ || true"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ── Angular frontend served by nginx ──────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"       # open http://localhost in a browser
