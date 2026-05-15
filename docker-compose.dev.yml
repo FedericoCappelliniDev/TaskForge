@@ -23,6 +23,11 @@ services:
       retries: 10
 
   # ── Angular frontend (ng serve with live reload) ───────────────────────────
+  # ── PostgreSQL (dev) ──────────────────────────────────────────────────────
+  postgres:
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+
   frontend:
     build:
       context: ./frontend
@@ -35,3 +40,6 @@ services:
       - "4200:4200"
     environment:
       - NODE_ENV=development
+
+volumes:
+  postgres_data_dev:
