@@ -1,8 +1,8 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
-import { AuthResponse, LoginRequest, RegisterRequest, User } from '../../shared/models/user.model';
+import { Observable, tap, catchError, EMPTY } from 'rxjs';
+import { AuthResponse, LoginRequest, RegisterRequest, User, UserResponse } from '../../shared/models/user.model';
 import { environment } from '../../../environments/environment';
 
 const TOKEN_KEY = 'tf_access_token';
@@ -20,13 +20,23 @@ export class AuthService {
   private readonly baseUrl = `${environment.apiBaseUrl}/auth`;
 
   // ── Bootstrap ───────────────────────────────────────────────────────────────
-  /** Call once in app initializer — restores session from stored token */
-  init(): void {
+  /** Called by APP_INITIALIZER — validates token and restores the user session. */
+  init(): Promise<void> {
     const token = this.getToken();
-    if (token) {
-      // TODO: call /auth/me to validate token and restore user
-      // this.fetchCurrentUser().subscribe();
-    }
+    if (!token) return Promise.resolve();
+
+    return new Promise(resolve => {
+      this.http.get<UserResponse>(`${this.baseUrl}/me`).pipe(
+        catchError(() => {
+          localStorage.removeItem(TOKEN_KEY);
+          return EMPTY;
+        }),
+      ).subscribe({
+        next:     user    => { this._currentUser.set(user as User); resolve(); },
+        error:    ()      => resolve(),
+        complete: ()      => resolve(),
+      });
+    });
   }
 
   // ── Auth actions ────────────────────────────────────────────────────────────
